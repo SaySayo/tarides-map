@@ -21,7 +21,11 @@ let () = Layer.add_to map tile_layer
 
 let marker = 
   let lat_lng = Latlng.create 6.465422 3.406448 in
-  Layer.create_marker lat_lng
+  Layer.create_marker lat_lng 
 
-let popup = 
-    Layer.bind_popup
+let () = Layer.add_to map marker
+
+let () = 
+  let str = El.txt' "This is a popup" in
+    Layer.bind_popup str tile_layer
+let get_popup = Layer.get_popup marker
