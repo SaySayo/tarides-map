@@ -1,0 +1,3 @@
+(library
+ (name tarides_map)
+ (libraries leaflet js_of_ocaml Brr))
