@@ -1,4 +1,3 @@
-open Js_of_ocaml
 open Leaflet
 open Brr
 
@@ -13,19 +12,21 @@ let () =
   let zoom = Some 13 in
   Map.set_view lat_lng ~zoom map
 
+  (* Tile layer *)
 let tile_layer =
-  let url = Some("http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}") in  
+  let url = Some("https://tile.openstreetmap.org/{z}/{x}/{y}.png") in  
     Layer.create_tile_osm url
 
 let () = Layer.add_to map tile_layer
 
+(* Marker *)
 let marker = 
   let lat_lng = Latlng.create 6.465422 3.406448 in
   Layer.create_marker lat_lng 
 
 let () = Layer.add_to map marker
-
+(* Popup *)
 let () = 
   let str = El.txt' "This is a popup" in
     Layer.bind_popup str tile_layer
-let get_popup = Layer.get_popup marker
+let _get_popup = Layer.get_popup marker
