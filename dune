@@ -1,3 +1,5 @@
-(library
- (name tarides_map)
- (libraries leaflet js_of_ocaml Brr))
+; (subdir dist/
+;   (rule 
+;     (targets main.js)
+;     (mode promote)
+;     (action (copy %{deps} %{targets}))))
