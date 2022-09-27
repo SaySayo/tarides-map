@@ -47,7 +47,7 @@ let denmark_marker =
 let () = Layer.add_to map denmark_marker
 
 (* Popup *)
-let () = 
+(* let () = 
   let str = El.txt' "This is Lagos" in
   let () = Layer.bind_popup str osm_layer in
   Layer.open_popup lagos_marker
@@ -56,5 +56,5 @@ let () = Leaflet.Popup.set_content "This is lagos"
 
 let () = Popup.open_on map
 
-let _get_popup = Layer.get_popup lagos_marker
+let _get_popup = Layer.get_popup lagos_marker *)
 
