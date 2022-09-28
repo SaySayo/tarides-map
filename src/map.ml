@@ -58,7 +58,7 @@ let () =
   let () = Layer.bind_popup str spain_marker in
   Layer.open_popup spain_marker
 
-  (*Denmark Popup*)
+  (* Denmark Marker *)
 let denmark_marker = 
   let lat_lng = Latlng.create 56.2639 9.5018 in
   Layer.create_marker lat_lng 
