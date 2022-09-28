@@ -26,6 +26,12 @@ let lagos_marker =
 
 let () = Layer.add_to map lagos_marker
 
+(* Lagos Popup *)
+let () = 
+  let str = El.txt' "This is Lagos" in
+  let () = Layer.bind_popup str lagos_marker in
+  Layer.open_popup lagos_marker
+
 (* Paris Marker *)
 let paris_marker = 
   let lat_lng = Latlng.create 48.864716 2.349014 in
@@ -33,28 +39,36 @@ let paris_marker =
 
 let () = Layer.add_to map paris_marker
 
-(* Paris Marker *)
+(* Paris Popup *)
+let () = 
+  let str = El.txt' "This is Paris" in
+  let () = Layer.bind_popup str paris_marker in
+  Layer.open_popup paris_marker
+
+(* Spain Marker *)
 let spain_marker = 
   let lat_lng = Latlng.create 39.466667 (-0.375000) in
   Layer.create_marker lat_lng 
 
 let () = Layer.add_to map spain_marker
 
+(* Spain Popup *)
+let () = 
+  let str = El.txt' "This is Valencia" in
+  let () = Layer.bind_popup str spain_marker in
+  Layer.open_popup spain_marker
+
+  (*Denmark Popup*)
 let denmark_marker = 
   let lat_lng = Latlng.create 56.2639 9.5018 in
   Layer.create_marker lat_lng 
 
 let () = Layer.add_to map denmark_marker
 
-(* Popup *)
-(* let () = 
-  let str = El.txt' "This is Lagos" in
-  let () = Layer.bind_popup str osm_layer in
-  Layer.open_popup lagos_marker
+(* Denmark Popup *)
+let () = 
+  let str = El.txt' "This is Denmark" in
+  let () = Layer.bind_popup str denmark_marker in
+  Layer.open_popup denmark_marker
 
-let () = Leaflet.Popup.set_content "This is lagos"
-
-let () = Popup.open_on map
-
-let _get_popup = Layer.get_popup lagos_marker *)
 
