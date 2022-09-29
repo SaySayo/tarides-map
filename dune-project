@@ -11,6 +11,7 @@
  (synopsis "Map of Tarides Collaborators")
  (description "This projects intends to show the locations of all Tarides's 
   employees and collaborators around the world")
+ (allow_empty)
  (depends 
   leaflet
   brr
