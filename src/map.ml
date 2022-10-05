@@ -25,7 +25,7 @@ let map =
 
 let () =
   let lat_lng = Latlng.create 51.505 (-0.09) in
-  let zoom = Some 13 in
+  let zoom = Some 3 in
   Map.set_view lat_lng ~zoom map
 
 (* Tile layer *)
