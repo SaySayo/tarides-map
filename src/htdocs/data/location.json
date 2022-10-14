@@ -1,0 +1,22 @@
+{
+   "Lagos": {
+    "Latitude": "6.465422",
+    "Longitude": "3.406448",
+    "Description": "This is Lagos"
+   },
+   "Paris": {
+    "Latitude": "48.864716",
+    "Longitude": "2.349014",
+    "Description": "This is Paris"
+   },
+   "Spain": {
+    "Latitude": "39.466667",
+    "Longitude": "-0.375000",
+    "Description": "This is Spain"
+   },
+   "Denmark": {
+    "Latitude": "56.2639",
+    "Longitude": "9.5018",
+    "Description": "This is Denmark"
+   }
+}
