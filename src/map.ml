@@ -3,7 +3,7 @@ open Brr
 
 type entry = { latitude : float; longitude : float; description : string }
 
-let lagos =
+(* let lagos =
   { latitude = 6.465422; longitude = 3.406448; description = "This is Lagos" }
 
 let paris =
@@ -15,7 +15,7 @@ let spain =
 let denmark =
   { latitude = 56.2639; longitude = 9.5018; description = "This is Denmark" }
 
-let list_of_locations = [lagos; paris; spain; denmark]
+let list_of_locations = [lagos; paris; spain; denmark] *)
 
 let map =
   let map_id = (Document.find_el_by_id G.document) (Jstr.v "map") in
@@ -48,16 +48,29 @@ let create_marker location =
   let () = Layer.bind_popup str marker in
   Layer.open_popup marker
 
-let () = List.iter create_marker list_of_locations
 
-let _fetch_json_content () = 
+
+let fetch_json_content () = 
   let open Fut.Result_syntax in
-  let uri = Jstr.v "http://[::]:8000/src/htdocs/data/location.json" in
+  let uri = Jstr.v "/src/htdocs/data/location.json" in
   let* result =  Brr_io.Fetch.url uri in 
-  let _body = Brr_io.Fetch.Response.as_body result in
-  Fut.ok ()
+  let body = Brr_io.Fetch.Response.as_body result in
+  let* fetch_text = Brr_io.Fetch.Body.json body in
+  Fut.ok fetch_text
 
 
-let _ =
-  (* let _fetch = fetch_json_content () in *)
-  Brr.Console.log [(Jstr.v "fetch")]
+let () =
+  let fetch = fetch_json_content () in
+  Fut.await fetch (fun result -> 
+    match result with 
+    | Error err -> Brr.Console.log [(Jv.of_error err)]
+    | Ok json -> Brr.Console.log [json]; 
+    let entries = Jv.to_list (fun field -> 
+      let latitude_str = Jv.get field "Latitude" in 
+      let latitude = Jv.to_float latitude_str in
+      let longitude_str = Jv.get field "Longitude" in
+      let longitude = Jv.to_float longitude_str in
+      let description_str = Jv.get field "Description" in 
+      let description = Jv.to_string description_str in
+      {latitude; longitude; description}) json in 
+      List.iter create_marker entries)
