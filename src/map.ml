@@ -50,3 +50,14 @@ let create_marker location =
 
 let () = List.iter create_marker list_of_locations
 
+let _fetch_json_content () = 
+  let open Fut.Result_syntax in
+  let uri = Jstr.v "http://[::]:8000/src/htdocs/data/location.json" in
+  let* result =  Brr_io.Fetch.url uri in 
+  let _body = Brr_io.Fetch.Response.as_body result in
+  Fut.ok ()
+
+
+let _ =
+  (* let _fetch = fetch_json_content () in *)
+  Brr.Console.log [(Jstr.v "fetch")]
