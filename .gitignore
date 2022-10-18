@@ -8,5 +8,5 @@ node_modules/
 _opam/
 
 # Generated Js file
-map.bc.js
-map.bc-for-jsoo
+src/htdocs/map.bc-for-jsoo
+src/htdocs/map.bc.js

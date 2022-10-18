@@ -3,20 +3,6 @@ open Brr
 
 type entry = { latitude : float; longitude : float; description : string }
 
-(* let lagos =
-  { latitude = 6.465422; longitude = 3.406448; description = "This is Lagos" }
-
-let paris =
-  { latitude = 48.864716; longitude = 2.349014; description = "This is Paris" }
-
-let spain =
-  { latitude = 39.466667; longitude = -0.375000; description = "This is Spain" }
-
-let denmark =
-  { latitude = 56.2639; longitude = 9.5018; description = "This is Denmark" }
-
-let list_of_locations = [lagos; paris; spain; denmark] *)
-
 let map =
   let map_id = (Document.find_el_by_id G.document) (Jstr.v "map") in
   match map_id with
@@ -71,3 +57,19 @@ let () =
       let description = Jv.to_string description_str in
       {latitude; longitude; description}) json in 
       List.iter create_marker entries)
+
+let () =
+  Dream.run
+  @@ Dream.logger
+  @@ Dream.router [
+    
+    (* Dream.get "/"
+      (fun _ ->
+        Dream.html "Good morning, world!");
+    
+        Dream.get "/echo/:word"
+        (fun request ->
+          Dream.html (Dream.param request "word")); *)
+    
+      ]
+    
