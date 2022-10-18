@@ -48,8 +48,6 @@ let create_marker location =
   let () = Layer.bind_popup str marker in
   Layer.open_popup marker
 
-
-
 let fetch_json_content () = 
   let open Fut.Result_syntax in
   let uri = Jstr.v "/src/htdocs/data/location.json" in
@@ -57,7 +55,6 @@ let fetch_json_content () =
   let body = Brr_io.Fetch.Response.as_body result in
   let* fetch_text = Brr_io.Fetch.Body.json body in
   Fut.ok fetch_text
-
 
 let () =
   let fetch = fetch_json_content () in
