@@ -6,3 +6,7 @@ node_modules/
 
 # Local OPAM switch
 _opam/
+
+# Generated Js file
+map.bc.js
+map.bc-for-jsoo
