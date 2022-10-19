@@ -57,14 +57,3 @@ let () =
       let description = Jv.to_string description_str in
       {latitude; longitude; description}) json in 
       List.iter create_marker entries)
-
-(* let () =
-  Dream.run
-  @@ Dream.logger
-  @@ Dream.router [
-    
-    Dream.get "/src/htdocs/data/location.json"
-      (fun _ ->
-        Dream.html "Good morning, world!"); 
-      ] *)
-    
