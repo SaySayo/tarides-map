@@ -10,3 +10,4 @@ _opam/
 # Generated Js file
 src/htdocs/map.bc-for-jsoo
 src/htdocs/map.bc.js
+*.bc
