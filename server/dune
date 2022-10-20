@@ -2,7 +2,7 @@
  (name server)
  (libraries dream yojson)
  (preprocess
-  (pps lwt_ppx)))
+  (pps lwt_ppx ppx_yojson_conv)))
 
 (rule
  (targets server.ml)

@@ -1,5 +1,3 @@
-open Yojson
-
 type entry = { latitude : float; longitude : float; description : string } [@@deriving yojson]
 
 let () =
@@ -14,7 +12,7 @@ let () =
       let entry_object =
         body
         |> Yojson.Safe.from_string
-        |> entry_object_of_yojson
+        |> entry_of_yojson
       in
 
       `String entry_object.description

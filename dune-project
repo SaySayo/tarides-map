@@ -17,4 +17,5 @@
   brr
   js_of_ocaml
   dream
-  yojson))
+  yojson
+  ppx_yojson_conv))
