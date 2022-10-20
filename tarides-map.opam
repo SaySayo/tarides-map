@@ -12,6 +12,7 @@ depends: [
   "leaflet"
   "brr"
   "js_of_ocaml"
+  "dream"
   "odoc" {with-doc}
 ]
 build: [
