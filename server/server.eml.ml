@@ -5,5 +5,5 @@ let () =
     
     Dream.get "/src/htdocs/data/location.json"
       (fun _ ->
-        Dream.html "Good morning, world!"); 
+        Dream.json "/src/htdocs/data/location.json"); 
       ]
