@@ -13,6 +13,7 @@ depends: [
   "brr"
   "js_of_ocaml"
   "dream"
+  "yojson"
   "odoc" {with-doc}
 ]
 build: [

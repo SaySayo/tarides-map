@@ -16,4 +16,5 @@
   leaflet
   brr
   js_of_ocaml
-  dream))
+  dream
+  yojson))
