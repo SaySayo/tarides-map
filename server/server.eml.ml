@@ -1,8 +1,6 @@
 open Yojson
 
-type message_object = {
-  message : string;
-} [@@deriving yojson]
+type entry = { latitude : float; longitude : float; description : string } [@@deriving yojson]
 
 let () =
   Dream.run
@@ -13,13 +11,13 @@ let () =
     (fun request ->
       let%lwt body = Dream.body request in
 
-      let message_object =
+      let entry_object =
         body
         |> Yojson.Safe.from_string
-        |> message_object_of_yojson
+        |> entry_object_of_yojson
       in
 
-      `String message_object.message
+      `String message_object.entry
       |> Yojson.Safe.to_string
       |> Dream.json);
       ]
