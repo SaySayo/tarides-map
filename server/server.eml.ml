@@ -17,7 +17,7 @@ let () =
         |> entry_object_of_yojson
       in
 
-      `String message_object.entry
+      `String entry_object.description
       |> Yojson.Safe.to_string
       |> Dream.json);
       ]
