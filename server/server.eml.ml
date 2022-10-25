@@ -19,5 +19,15 @@ let () =
     (fun _ ->
       let%lwt body = Lwt_io.open_file ~mode:Input "src/htdocs/data/location.json" in
       let%lwt body_to_string = Lwt_io.read body in
+      let entry_object =
+        body_to_string
+        |> Yojson.Safe.from_string
+        |> entry_of_yojson
+      in
+
+      `String entry_object.description
+      |> Yojson.Safe.to_string
+      |> Dream.json;
+
         Dream.json body_to_string)
       ]
