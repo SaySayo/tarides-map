@@ -37,6 +37,8 @@ let () =
        entry
       |> yojson_of_entry
       |> Yojson.Safe.to_string
-      |> Dream.json)
+      |> Dream.json);
+
+    Dream.get "/form.html" (fun _ -> )
       ]
   
