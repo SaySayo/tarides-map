@@ -36,7 +36,7 @@ let create_marker location =
 
 let fetch_json_content () = 
   let open Fut.Result_syntax in
-  let uri = Jstr.v "/src/htdocs/data/location.json" in
+  let uri = Jstr.v "/location" in
   let* result =  Brr_io.Fetch.url uri in 
   let body = Brr_io.Fetch.Response.as_body result in
   let* fetch_text = Brr_io.Fetch.Body.json body in
@@ -49,11 +49,11 @@ let () =
     | Error err -> Brr.Console.log [(Jv.of_error err)]
     | Ok json -> Brr.Console.log [json]; 
     let entries = Jv.to_list (fun field -> 
-      let latitude_str = Jv.get field "Latitude" in 
+      let latitude_str = Jv.get field "latitude" in 
       let latitude = Jv.to_float latitude_str in
-      let longitude_str = Jv.get field "Longitude" in
+      let longitude_str = Jv.get field "longitude" in
       let longitude = Jv.to_float longitude_str in
-      let description_str = Jv.get field "Description" in 
+      let description_str = Jv.get field "description" in 
       let description = Jv.to_string description_str in
       {latitude; longitude; description}) json in 
       List.iter create_marker entries)
