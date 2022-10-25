@@ -10,7 +10,7 @@ let spain =
   { latitude = 39.466667; longitude = -0.375000; description = "This is Spain" }
 let denmark =
   { latitude = 56.2639; longitude = 9.5018; description = "This is Denmark" }
-let locations = [lagos; paris; spain; denmark]
+let locations = ref [lagos; paris; spain; denmark]
 
 let () =
   Dream.run
@@ -19,7 +19,7 @@ let () =
     
     Dream.get "/location"
     (fun _ ->
-        locations
+        !locations
         |> yojson_of_locations
         |> Yojson.Safe.to_string 
         |> Dream.json
