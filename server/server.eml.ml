@@ -39,13 +39,12 @@ let () =
       |> Yojson.Safe.to_string
       |> Dream.json);
 
-    (* Dream.get "/add-entry" (fun _ -> Dream.html "Hello World") *)
 
     Dream.post "/add-entry" (fun request -> 
      match%lwt Dream.form ~csrf:false request with
-     | `Ok [("description", _); ("latitude", _); ("longitude", _) ] -> 
-      let formatter = Fmt.Dump.(list (Fmt.Dump.pair Fmt.Dump.string Fmt.Dump.string)) in Format.printf "%a\n" formatter [("description", _); ("latitude", _); ("longitude", _) ]; Dream.html "Hello World"
+     | `Ok ([("description", _); ("latitude", _); ("longitude", _) ] as form_data) -> 
+      let formatter = Fmt.Dump.(list (Fmt.Dump.pair Fmt.Dump.string Fmt.Dump.string)) in Dream.log "%a\n" formatter form_data; Dream.html "Hello World"
      | _ ->
       Dream.empty `Bad_Request)
-      ]
+      ];
   
