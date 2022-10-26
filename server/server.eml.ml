@@ -39,6 +39,8 @@ let () =
       |> Yojson.Safe.to_string
       |> Dream.json);
 
-    Dream.get "/form.html" (fun _ -> )
+    Dream.get "/form.html" (fun request -> 
+      let%lwt body = Dream.body request in
+      Dream.respond body)
       ]
   
