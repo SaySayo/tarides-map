@@ -1,6 +1,6 @@
 (executable
  (name server)
- (libraries dream yojson)
+ (libraries dream yojson fmt)
  (preprocess
   (pps lwt_ppx ppx_yojson_conv)))
 
