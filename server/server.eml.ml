@@ -39,6 +39,8 @@ let () =
       |> Yojson.Safe.to_string
       |> Dream.json);
 
+    Dream.get "/add-entry" (fun _ -> Dream.html "Hello World");
+
     Dream.post "/add-entry" (fun request -> 
      match%lwt Dream.form ~csrf:false request with
      | `Ok [("latitude", _); ("longitude", _); ("description", _)] -> Dream.html "Hello World"
