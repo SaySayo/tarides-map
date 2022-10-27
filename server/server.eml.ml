@@ -28,7 +28,6 @@ let () =
          Dream.post "/location" (fun request ->
              let%lwt body = Dream.body request in
              let entry = body |> Yojson.Safe.from_string |> entry_of_yojson in
-
              entry |> yojson_of_entry |> Yojson.Safe.to_string |> Dream.json);
          Dream.post "/add-entry" (fun request ->
              match%lwt Dream.form ~csrf:false request with
