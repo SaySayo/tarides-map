@@ -1,9 +1,9 @@
 (executable
  (name map)
- (promote (until-clean) (into htdocs))
+ (promote
+  (until-clean)
+  (into htdocs))
  (libraries leaflet js_of_ocaml brr)
  (modes js)
  (preprocess
   (pps js_of_ocaml-ppx)))
-
-

@@ -34,26 +34,31 @@ let create_marker location =
   let () = Layer.bind_popup str marker in
   Layer.open_popup marker
 
-let fetch_json_content () = 
+let fetch_json_content () =
   let open Fut.Result_syntax in
   let uri = Jstr.v "/location" in
-  let* result =  Brr_io.Fetch.url uri in 
+  let* result = Brr_io.Fetch.url uri in
   let body = Brr_io.Fetch.Response.as_body result in
   let* fetch_text = Brr_io.Fetch.Body.json body in
   Fut.ok fetch_text
 
 let () =
   let fetch = fetch_json_content () in
-  Fut.await fetch (fun result -> 
-    match result with 
-    | Error err -> Brr.Console.log [(Jv.of_error err)]
-    | Ok json -> Brr.Console.log [json]; 
-    let entries = Jv.to_list (fun field -> 
-      let latitude_str = Jv.get field "latitude" in 
-      let latitude = Jv.to_float latitude_str in
-      let longitude_str = Jv.get field "longitude" in
-      let longitude = Jv.to_float longitude_str in
-      let description_str = Jv.get field "description" in 
-      let description = Jv.to_string description_str in
-      {latitude; longitude; description}) json in 
-      List.iter create_marker entries)
+  Fut.await fetch (fun result ->
+      match result with
+      | Error err -> Brr.Console.log [ Jv.of_error err ]
+      | Ok json ->
+          Brr.Console.log [ json ];
+          let entries =
+            Jv.to_list
+              (fun field ->
+                let latitude_str = Jv.get field "latitude" in
+                let latitude = Jv.to_float latitude_str in
+                let longitude_str = Jv.get field "longitude" in
+                let longitude = Jv.to_float longitude_str in
+                let description_str = Jv.get field "description" in
+                let description = Jv.to_string description_str in
+                { latitude; longitude; description })
+              json
+          in
+          List.iter create_marker entries)

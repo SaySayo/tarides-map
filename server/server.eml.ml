@@ -42,15 +42,14 @@ let () =
 
     Dream.post "/add-entry" (fun request -> 
      match%lwt Dream.form ~csrf:false request with
-     | `Ok ([("description", _); ("latitude", _); ("longitude", _) ] as form_data) -> 
-      let formatter = Fmt.Dump.(list (Fmt.Dump.pair Fmt.Dump.string Fmt.Dump.string)) in Dream.log "%a\n" formatter form_data; 
-      (* Dream.html "Hello World" *)
-      let form_data_to_entry = match form_data with 
-      | [] -> _ 
-      | h :: t -> {latitude = }
-      (* | ("description", _) -> entry.description
-      | ("latitude", _) -> entry.latitude
-      | ("longitude", _) -> entry.longitude *)
+     | `Ok ([("description", description); ("latitude", latitude); ("longitude", longitude) ] as form_data) -> 
+      (let formatter = Fmt.Dump.(list (Fmt.Dump.pair Fmt.Dump.string Fmt.Dump.string)) in Dream.log "%a\n" formatter form_data; 
+      let form_data_to_entry = 
+        let description = description in
+        let latitude = float_of_string latitude in
+        let longitude = float_of_string longitude in
+        let _entry = {latitude; longitude; description} in
+       form_data_to_entry :: !locations)
      | _ ->
       Dream.empty `Bad_Request)
       ];
