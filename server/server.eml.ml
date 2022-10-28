@@ -17,6 +17,16 @@ let denmark =
 
 let locations = ref [ lagos; paris; spain; denmark ]
 
+let load_locations () = Yojson.Safe.from_file "location.json" 
+  |> locations_of_yojson 
+
+let _ = load_locations ()
+let add_locations entry = 
+  locations := entry :: !locations;
+  !locations |> yojson_of_locations  
+  |> Yojson.Safe.to_file "location.json"
+
+
 let () =
   Dream.run @@ Dream.logger
   @@ Dream.router
@@ -42,13 +52,10 @@ let () =
                      list (Fmt.Dump.pair Fmt.Dump.string Fmt.Dump.string))
                  in
                  Dream.log "%a\n" formatter form_data;
-                 let description = description in
                  let latitude = float_of_string latitude in
                  let longitude = float_of_string longitude in
                  let entry = { latitude; longitude; description } in
-                  locations := entry :: !locations;
-                  let locations_to_json = !locations |> yojson_of_locations
-                  |> Yojson.Safe.to_file "/location.json";
+                 add_locations entry;
                  Dream.redirect request "/index.html"
              | _ -> Dream.empty `Bad_Request);
        ]
