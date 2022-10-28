@@ -47,6 +47,8 @@ let () =
                  let longitude = float_of_string longitude in
                  let entry = { latitude; longitude; description } in
                   locations := entry :: !locations;
+                  let locations_to_json = !locations |> yojson_of_locations
+                  |> Yojson.Safe.to_file "/location.json";
                  Dream.redirect request "/index.html"
              | _ -> Dream.empty `Bad_Request);
        ]
