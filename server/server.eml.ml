@@ -3,24 +3,10 @@ type entry = { latitude : float; longitude : float; description : string }
 
 type locations = entry list [@@deriving yojson]
 
-let lagos =
-  { latitude = 6.465422; longitude = 3.406448; description = "This is Lagos" }
-
-let paris =
-  { latitude = 48.864716; longitude = 2.349014; description = "This is Paris" }
-
-let spain =
-  { latitude = 39.466667; longitude = -0.375000; description = "This is Spain" }
-
-let denmark =
-  { latitude = 56.2639; longitude = 9.5018; description = "This is Denmark" }
-
 let load_locations () = Yojson.Safe.from_file "location.json" 
   |> locations_of_yojson
 
-let locations = ref [ lagos; paris; spain; denmark ]
-
-let _ = load_locations ()
+let locations = ref (load_locations ())
 let add_locations entry = 
   locations := entry :: !locations;
   !locations |> yojson_of_locations  
