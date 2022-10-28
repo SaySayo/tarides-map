@@ -15,10 +15,10 @@ let spain =
 let denmark =
   { latitude = 56.2639; longitude = 9.5018; description = "This is Denmark" }
 
-let locations = ref [ lagos; paris; spain; denmark ]
-
 let load_locations () = Yojson.Safe.from_file "location.json" 
-  |> locations_of_yojson 
+  |> locations_of_yojson
+
+let locations = ref [ lagos; paris; spain; denmark ]
 
 let _ = load_locations ()
 let add_locations entry = 
