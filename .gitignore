@@ -11,3 +11,6 @@ _opam/
 src/htdocs/map.bc-for-jsoo
 src/htdocs/map.bc.js
 *.bc
+
+#location data
+location.json

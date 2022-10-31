@@ -4,11 +4,9 @@ type entry = { latitude : float; longitude : float; description : string }
 type locations = entry list [@@deriving yojson]
 
 let load_locations () = 
-  let json_from_file = Yojson.Safe.from_file "location.json" 
-  |> locations_of_yojson in 
-match json_from_file with
-| Some json_from_file -> json_from_file 
-| None -> failwith "Foo"
+match Yojson.Safe.from_file "location.json" with
+| json -> json |> locations_of_yojson
+| exception Sys_error _ -> []
 
 let locations = ref (load_locations ())
 let add_locations entry = 
