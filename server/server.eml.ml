@@ -43,6 +43,11 @@ let () =
                  let latitude = float_of_string latitude in
                  let longitude = float_of_string longitude in
                  let entry = { latitude; longitude; description } in
+                 let validate_to_float ~min:float ~max:float data = 
+                  match data with
+                  | Some data -> float_of_string data
+                  | None -> 0.0
+                  in
                  add_locations entry;
                  Dream.redirect request "/index.html"
              | _ -> Dream.empty `Bad_Request);
