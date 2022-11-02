@@ -19,29 +19,21 @@ let add_locations entry =
   locations := entry :: !locations;
   !locations |> yojson_of_locations |> Yojson.Safe.to_file "location.json"
 
-  let show_form ?entry request =
-    <html>
+let show_form request =
+  <html>
     <body>
-  
-  %   begin match entry with
-  %   | None -> ()
-  %   | Some entry ->
-        <p>You entered: <b><%s entry %>!</b></p>
-  %   end;
-  
-  <form action="/add-entry" method="POST">
-  <%s! Dream.csrf_tag request %>
-  <label  for="latitude">Enter Latitude</label>
-  <input name="latitude" type="number" id="latitude" min="-90" max="90"><br>
-  <label for="longitude">Enter Longitude</label>
-  <input name="longitude" type="number" id="longitude" min="-180" max="180"><br>
-  <label for="description">Enter Description</label>
-  <input name="description" type="text" id="description"><br>
-  <input type="submit" value="Submit">
-    </form>
-  
+      <form action="/add-entry" method="POST">
+        <%s! Dream.csrf_tag request %>
+        <label  for="latitude">Enter Latitude</label>
+        <input name="latitude" type="number" id="latitude" min="-90" max="90"><br>
+        <label for="longitude">Enter Longitude</label>
+        <input name="longitude" type="number" id="longitude" min="-180" max="180"><br>
+        <label for="description">Enter Description</label>
+        <input name="description" type="text" id="description"><br>
+        <input type="submit" value="Submit">
+      </form>
     </body>
-    </html>
+  </html>
 
 let () =
   Dream.run @@ Dream.logger
