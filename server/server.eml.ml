@@ -25,9 +25,9 @@ let show_form request =
       <form action="/add-entry" method="POST">
         <%s! Dream.csrf_tag request %>
         <label  for="latitude">Enter Latitude</label>
-        <input name="latitude" type="number" id="latitude" min="-90" max="90"><br>
+        <input name="latitude" type="number" id="latitude" step="0.000000000001" min="-90" max="90"><br>
         <label for="longitude">Enter Longitude</label>
-        <input name="longitude" type="number" id="longitude" min="-180" max="180"><br>
+        <input name="longitude" type="number" id="longitude" step="0.000000000001" min="-180" max="180"><br>
         <label for="description">Enter Description</label>
         <input name="description" type="text" id="description"><br>
         <input type="submit" value="Submit">
@@ -43,9 +43,9 @@ let () =
          Dream.get "/location" (fun _ ->
              !locations |> yojson_of_locations |> Yojson.Safe.to_string
              |> Dream.json);
+         Dream.get "/form" (fun request -> Dream.html (show_form request));
          Dream.get "/**" (Dream.static "src/htdocs");
-         Dream.get "/form" 
-          (fun request -> Dream.html (show_form request));
+         Dream.post "/form" (fun request -> Dream.html (show_form request));
          Dream.post "/location" (fun request ->
              let%lwt body = Dream.body request in
              let entry = body |> Yojson.Safe.from_string |> entry_of_yojson in
