@@ -45,7 +45,6 @@ let () =
              |> Dream.json);
          Dream.get "/form" (fun request -> Dream.html (show_form request));
          Dream.get "/**" (Dream.static "src/htdocs");
-         Dream.post "/form" (fun request -> Dream.html (show_form request));
          Dream.post "/location" (fun request ->
              let%lwt body = Dream.body request in
              let entry = body |> Yojson.Safe.from_string |> entry_of_yojson in
