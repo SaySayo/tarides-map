@@ -21,6 +21,11 @@ let add_locations entry =
   locations := entry :: !locations;
   !locations |> yojson_of_locations |> Yojson.Safe.to_file "location.json"
 
+let handle_auth f = 
+  fun request ->
+    match authenticated with
+    | true -> f request
+    | false -> Dream.empty `Bad_Request
 
 let () =
   Dream.run @@ Dream.logger
