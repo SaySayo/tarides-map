@@ -7,6 +7,8 @@ let load_locations () =
   match Yojson.Safe.from_file "location.json" with
   | json -> json |> locations_of_yojson
   | exception Sys_error _ -> []
+  | exception Yojson.Json_error _ ->
+    Dream.log "location.json file is not valid thus the input is being ignored"; []
 
 let validate_to_float ~min ~max data =
   match float_of_string_opt data with
