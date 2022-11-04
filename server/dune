@@ -5,7 +5,7 @@
   (pps lwt_ppx ppx_yojson_conv)))
 
 (rule
- (targets server.ml)
- (deps server.eml.ml)
+ (targets form.ml)
+ (deps form.eml.ml)
  (action
   (run dream_eml %{deps} --workspace %{workspace_root})))
