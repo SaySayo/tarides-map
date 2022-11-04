@@ -28,7 +28,7 @@ let () =
          Dream.get "/location" (fun _ ->
              !locations |> yojson_of_locations |> Yojson.Safe.to_string
              |> Dream.json);
-         Dream.get "/form" (fun request -> Dream.html (form.show_form request));
+         Dream.get "/form" (fun request -> Dream.html (Form.show_form request));
          Dream.get "/**" (Dream.static "src/htdocs");
          Dream.post "/location" (fun request ->
              let%lwt body = Dream.body request in
