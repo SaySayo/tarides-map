@@ -15,6 +15,9 @@ depends: [
   "dream"
   "yojson"
   "ppx_yojson_conv"
+  "base64"
+  "pbkdf"
+  "cstruct"
   "odoc" {with-doc}
 ]
 build: [

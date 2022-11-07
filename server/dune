@@ -1,6 +1,6 @@
 (executable
  (name server)
- (libraries dream yojson fmt brr)
+ (libraries dream yojson fmt brr base64 cstruct pbkdf)
  (preprocess
   (pps lwt_ppx ppx_yojson_conv)))
 

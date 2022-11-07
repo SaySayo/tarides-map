@@ -18,4 +18,7 @@
   js_of_ocaml
   dream
   yojson
-  ppx_yojson_conv))
+  ppx_yojson_conv
+  base64
+  pbkdf
+  cstruct))
