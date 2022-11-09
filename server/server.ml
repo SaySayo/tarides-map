@@ -60,13 +60,6 @@ let handle_auth valid_users f request =
           ]
         `Unauthorized
 
-let hash_pword pword = 
-  let password = Cstruct.of_string pword in
-  let salt = Cstruct.of_string "bisheeh7" in
-  let dk_len = String.length pword in
-  let hash_cstruct = Pbkdf.pbkdf1 ~hash:`SHA1 ~password ~salt ~count:1024 ~dk_len in
-  hash_cstruct
-
 let user_ids =
   let name = "admin" in
   let password = Cstruct.of_hex "fc1bdf27" in
