@@ -2,8 +2,8 @@ type entry = { latitude : float; longitude : float; description : string }
 [@@deriving yojson]
 
 type locations = entry list [@@deriving yojson]
-type account = string * string
-type _accounts = account list
+type account = string * Cstruct.t
+type accounts = account list
 
 let load_locations () =
   match Yojson.Safe.from_file "location.json" with
@@ -25,6 +25,13 @@ let add_locations entry =
   locations := entry :: !locations;
   !locations |> yojson_of_locations |> Yojson.Safe.to_file "location.json"
 
+let hash_pword pword = 
+  let password = Cstruct.of_string pword in
+  let salt = Cstruct.of_string "bisheeh7" in
+  let dk_len = String.length pword in
+  let hash_cstruct = Pbkdf.pbkdf1 ~hash:`SHA1 ~password ~salt ~count:1024 ~dk_len in
+  hash_cstruct
+
 let handle_auth valid_users f request =
   let authenticated =
     match Dream.header request "Authorization" with
@@ -37,7 +44,7 @@ let handle_auth valid_users f request =
             | Ok decoded -> (
                 match String.split_on_char ':' decoded with
                 | [ username; password ] ->
-                    let account_user = (username, password) in
+                    let account_user = (username, (hash_pword password)) in
                     List.mem account_user valid_users
                 | _ -> false)
             | Error _ -> false)
@@ -62,7 +69,7 @@ let hash_pword pword =
 
 let user_ids =
   let name = "admin" in
-  let password = "fc1bdf27" in
+  let password = Cstruct.of_hex "fc1bdf27" in
   let account = (name, password) in
   [ account ]
 
