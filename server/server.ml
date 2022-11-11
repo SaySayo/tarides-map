@@ -2,8 +2,17 @@ type entry = { latitude : float; longitude : float; description : string }
 [@@deriving yojson]
 
 type locations = entry list [@@deriving yojson]
-type account = string * Cstruct.t
-type accounts = account list
+
+module Username = struct
+  type t = string
+  let compare = String.compare 
+end
+
+module Accounts = Map.Make(Username)
+
+let accounts = Accounts.empty
+let accounts = Accounts.add "admin" (Cstruct.of_hex "fc1bdf27") accounts
+
 
 let load_locations () =
   match Yojson.Safe.from_file "location.json" with
@@ -43,9 +52,10 @@ let handle_auth valid_users f request =
             match decode with
             | Ok decoded -> (
                 match String.split_on_char ':' decoded with
-                | [ username; password ] ->
-                    let account_user = (username, (hash_pword password)) in
-                    List.mem account_user valid_users
+                | [ username; password ] -> (
+                      match (Accounts.find_opt username valid_users) with 
+                     | Some stored_password -> Cstruct.equal stored_password (hash_pword password)
+                     | None -> false)
                 | _ -> false)
             | Error _ -> false)
         | _ -> false)
@@ -60,12 +70,6 @@ let handle_auth valid_users f request =
           ]
         `Unauthorized
 
-let user_ids =
-  let name = "admin" in
-  let password = Cstruct.of_hex "fc1bdf27" in
-  let account = (name, password) in
-  [ account ]
-
 let () =
   Dream.run @@ Dream.logger @@ Dream.memory_sessions
   @@ Dream.router
@@ -74,7 +78,7 @@ let () =
              !locations |> yojson_of_locations |> Yojson.Safe.to_string
              |> Dream.json);
          Dream.get "/form"
-           (handle_auth user_ids (fun request ->
+           (handle_auth accounts (fun request ->
                 Dream.html (Form.show_form request)));
          Dream.get "/**" (Dream.static "src/htdocs");
          Dream.post "/location" (fun request ->
@@ -82,7 +86,7 @@ let () =
              let entry = body |> Yojson.Safe.from_string |> entry_of_yojson in
              entry |> yojson_of_entry |> Yojson.Safe.to_string |> Dream.json);
          Dream.post "/add-entry"
-           (handle_auth user_ids (fun request ->
+           (handle_auth accounts (fun request ->
                 match%lwt Dream.form ~csrf:true request with
                 | `Ok
                     ([
