@@ -24,4 +24,4 @@ COPY --from=0 /tarides-map/depexts depexts
 RUN cat depexts | xargs apk --update add && rm -rf /var/cache/apk/*
 
 EXPOSE 3000
-CMD ./tarides-map.exe
+CMD /tarides-map/tarides-map.exe
