@@ -71,7 +71,7 @@ let handle_auth valid_users f request =
         `Unauthorized
 
 let () =
-  Dream.run @@ Dream.logger @@ Dream.memory_sessions
+  Dream.run ~interface:"0.0.0.0" @@ Dream.logger @@ Dream.memory_sessions
   @@ Dream.router
        [
          Dream.get "/location" (fun _ ->
