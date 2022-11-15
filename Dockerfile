@@ -18,6 +18,7 @@ RUN sudo chown -R opam:nogroup . && \
 FROM alpine
 WORKDIR /tarides-map
 COPY --from=0 /tarides-map/_build/default/server/server.exe tarides-map.exe
+COPY --from=0 /tarides-map/src/htdocs /tarides-map/src/htdocs
 
 
 COPY --from=0 /tarides-map/depexts depexts
