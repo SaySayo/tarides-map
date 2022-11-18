@@ -11,4 +11,4 @@ _opam/
 .dockerignore
 
 #git
-git
+.git
