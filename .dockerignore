@@ -6,3 +6,9 @@ node_modules/
 
 # Local OPAM switch
 _opam/
+
+#dockerignore
+.dockerignore
+
+#git
+git
