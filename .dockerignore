@@ -1,0 +1,8 @@
+# ocamlbuild working directory
+_build/
+
+# Normal npm stuff
+node_modules/
+
+# Local OPAM switch
+_opam/
