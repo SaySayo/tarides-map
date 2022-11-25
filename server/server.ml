@@ -5,14 +5,14 @@ type locations = entry list [@@deriving yojson]
 
 module Username = struct
   type t = string
-  let compare = String.compare 
+
+  let compare = String.compare
 end
 
-module Accounts = Map.Make(Username)
+module Accounts = Map.Make (Username)
 
 let accounts = Accounts.empty
 let accounts = Accounts.add "admin" (Cstruct.of_hex "fc1bdf27") accounts
-
 
 let load_locations () =
   match Yojson.Safe.from_file "location.json" with
@@ -34,11 +34,13 @@ let add_locations entry =
   locations := entry :: !locations;
   !locations |> yojson_of_locations |> Yojson.Safe.to_file "location.json"
 
-let hash_pword pword = 
+let hash_pword pword =
   let password = Cstruct.of_string pword in
   let salt = Cstruct.of_string "bisheeh7" in
   let dk_len = String.length pword in
-  let hash_cstruct = Pbkdf.pbkdf1 ~hash:`SHA1 ~password ~salt ~count:1024 ~dk_len in
+  let hash_cstruct =
+    Pbkdf.pbkdf1 ~hash:`SHA1 ~password ~salt ~count:1024 ~dk_len
+  in
   hash_cstruct
 
 let handle_auth valid_users f request =
@@ -53,9 +55,10 @@ let handle_auth valid_users f request =
             | Ok decoded -> (
                 match String.split_on_char ':' decoded with
                 | [ username; password ] -> (
-                      match (Accounts.find_opt username valid_users) with 
-                     | Some stored_password -> Cstruct.equal stored_password (hash_pword password)
-                     | None -> false)
+                    match Accounts.find_opt username valid_users with
+                    | Some stored_password ->
+                        Cstruct.equal stored_password (hash_pword password)
+                    | None -> false)
                 | _ -> false)
             | Error _ -> false)
         | _ -> false)
@@ -71,9 +74,12 @@ let handle_auth valid_users f request =
         `Unauthorized
 
 let () =
-  Dream.run ~interface:"0.0.0.0" @@ Dream.logger @@ Dream.memory_sessions
+  Dream.run ~interface:"0.0.0.0"
+  @@ Dream.logger @@ Dream.memory_sessions
   @@ Dream.router
        [
+         Dream.get "/" (fun request ->
+             Dream.redirect ~status:`Found request "/index.html");
          Dream.get "/location" (fun _ ->
              !locations |> yojson_of_locations |> Yojson.Safe.to_string
              |> Dream.json);
