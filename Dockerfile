@@ -1,4 +1,4 @@
-FROM ocaml/opam:alpine
+FROM ocaml/opam:alpine-3.16
 
 WORKDIR /tarides-map
 
@@ -15,7 +15,7 @@ RUN sudo chown -R opam:nogroup . && \
     opam depext -ln tarides-map | sed "s/\-.*//" > depexts
     
 
-FROM alpine
+FROM alpine:3.16
 WORKDIR /tarides-map
 COPY --from=0 /tarides-map/_build/default/server/server.exe tarides-map.exe
 COPY --from=0 /tarides-map/src/htdocs /tarides-map/src/htdocs
